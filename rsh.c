@@ -153,22 +153,21 @@ int main(int argc, char **argv) {
                 char target[50];
                 char message[200];
                 token = strtok(NULL, " ");
-                strcpy(target,token);
-                tracker+=strlen(token)+2;
-                for(int i=0; i<strlen(line2)-tracker; i++){
-                        message[i]=line2[i+tracker];
-                }
-                printf("target is: \"%s\"\nmessage is: \"%s\"\n", target, message);
-                if(strcmp(target,"")==0){
+                if(token==NULL){
                         printf("sendmsg: you have to specify target user\n");
                         continue;
                 }
-
-                if(strcmp(message,"")==0){
+                strcpy(target,token);
+                tracker+=strlen(token)+2;
+                int msgLen = strlen(line2)-tracker;
+                if(msgLen==-1){
                         printf("sendmsg: you have to enter a message\n");
                         continue;
                 }
-                printf("Preparing to send message\n");
+                for(int i=0; i<msgLen; i++){
+                        message[i]=line2[i+tracker];
+                }
+                message[msgLen]='\0';
                 sendmsg(uName,target,message);
                 continue;
         }
